@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Press Hub{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <h2>Welcome to Press Hub</h2>
+                <p>This platform helps you manage topics, newspapers, and redactors with ease.</p>
+                {% if user.is_authenticated %}
+                    <p>Hello, {{ user.username }}! Check the menu for available options.</p>
+                {% else %}
+                    <p>Please <a href="{% url 'press_hub:login' %}">log in</a> to access full features.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
