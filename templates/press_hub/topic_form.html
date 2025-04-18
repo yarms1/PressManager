@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Topic{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Create a New Topic</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Topic</button>
+    </form>
+
+    <a href="{% url 'press_hub:topic-list' %}" class="btn btn-secondary mt-3">Back to Topics</a>
+{% endblock %}

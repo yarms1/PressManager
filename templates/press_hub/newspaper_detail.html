@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Newspaper Detail - {{ newspaper.title }}{% endblock %}
+
+{% block content %}
+    <h2>{{ newspaper.title }}</h2>
+    <p><strong>Published Date:</strong> {{ newspaper.published_date }}</p>
+    <p><strong>Content:</strong> {{ newspaper.content }}</p>
+
+    <h3>Editors:</h3>
+    {% if publisher %}
+        <ul>
+            {% for editor in publisher %}
+                <li>{{ editor.username }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No editors assigned.</p>
+    {% endif %}
+
+    <a href="{% url 'press_hub:newspaper-list' %}" class="btn btn-primary">Back to Newspaper List</a>
+{% endblock %}

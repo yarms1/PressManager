@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Redactors List - Press Hub{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Redactors List</h2>
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                {% for redactor in page_obj %}
+                    <li class="list-group-item">
+                        <a href="{% url 'press_hub:redactor-detail' redactor.id %}">{{ redactor.username }}</a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No redactors available</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination">
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item disabled">
+                <span class="page-link">{{ page_obj.number }}</span>
+            </li>
+
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}?page={{ page_obj.paginator.num_pages }}{% else %}#{% endif %}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

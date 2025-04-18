@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Newspapers List{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Newspapers List</h2>
+
+    {% if request.user.is_staff %}
+        <a href="{% url 'press_hub:newspaper-create' %}" class="btn btn-success mb-3">Create New Newspaper</a>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                {% for newspaper in page_obj %}
+                    <li class="list-group-item">
+                        <a href="{% url 'press_hub:newspaper-detail' newspaper.id %}">{{ newspaper.title }}</a>
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'press_hub:newspaper-edit' newspaper.id %}" class="btn btn-warning btn-sm float-end ms-2">Edit</a>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No newspapers available</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination">
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">{{ page_obj.number }}</span>
+            </li>
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}?page={{ page_obj.paginator.num_pages }}{% else %}#{% endif %}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}

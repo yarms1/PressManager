@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Topic Detail - {{ topic.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2>Topic Detail</h2>
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5>{{ topic.name }}</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Description:</strong> {{ topic.description }}</p>
+                <p><strong>Created at:</strong> {{ topic.created_at|date:"d M Y, H:i" }}</p>
+                <p><strong>Updated at:</strong> {{ topic.updated_at|date:"d M Y, H:i" }}</p>
+            </div>
+        </div>
+        <a href="{% url 'press_hub:topic-list' %}" class="btn btn-primary mt-4">Back to Topics</a>
+    </div>
+</div>
+{% endblock %}
