@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Redactor Detail - {{ redactor.username }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2>Redactor Detail</h2>
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5>{{ redactor.username }}</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>First Name:</strong> {{ redactor.first_name }}</p>
+                <p><strong>Last Name:</strong> {{ redactor.last_name }}</p>
+                <p><strong>Email:</strong> {{ redactor.email }}</p>
+                <p><strong>Years of Experience:</strong> {{ redactor.years_of_experience }}</p>
+                <p><strong>Groups:</strong>
+                    {% if redactor.groups.exists %}
+                        <ul>
+                            {% for group in redactor.groups.all %}
+                                <li>{{ group.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        No groups assigned
+                    {% endif %}
+                </p>
+                <p><strong>User Permissions:</strong>
+                    {% if redactor.user_permissions.exists %}
+                        <ul>
+                            {% for permission in redactor.user_permissions.all %}
+                                <li>{{ permission.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        No specific permissions assigned
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer text-muted">
+                Last login: {{ redactor.last_login|date:"d M Y, H:i" }}
+            </div>
+        </div>
+        <a href="{% url 'press_hub:redactor-list' %}" class="btn btn-primary mt-4">Back to Redactors</a>
+    </div>
+</div>
+{% endblock %}

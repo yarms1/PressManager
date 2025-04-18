@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from .models import Topic, Redactor, Newspaper
 
 
@@ -26,13 +27,31 @@ class RedactorForm(forms.ModelForm):
 class NewspaperForm(forms.ModelForm):
     class Meta:
         model = Newspaper
-        fields = ["title", "published_date", "is_published", "topic", "redactor"]
+        exclude = ["published_date"]
+        fields = ["title", "published_date", "topic", "publishers"]
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter newspaper title"}),
-            "published_date": forms.DateInput(
-                attrs={"class": "form-control", "type": "date"}
-            ),
-            "is_published": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "topic": forms.Select(attrs={"class": "form-select"}),
-            "redactor": forms.Select(attrs={"class": "form-select"}),
+            "publishers": forms.Select(attrs={"class": "form-select"}),
         }
+
+
+class UserRegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "username", "email", "password"]
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
+
+        if commit:
+            user.save()
+        return user

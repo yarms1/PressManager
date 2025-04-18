@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+    <h2>Are you sure you want to delete the newspaper "{{ newspaper.title }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+    </form>
+    <a href="{% url 'press_hub:newspaper-list' %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

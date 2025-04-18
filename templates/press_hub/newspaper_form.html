@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if newspaper %}Edit Newspaper{% else %}Create Newspaper{% endif %}{% endblock %}
+
+{% block content %}
+    <h2>{% if newspaper %}Edit Newspaper{% else %}Create Newspaper{% endif %}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">
+            {% if newspaper %}Save Changes{% else %}Create Newspaper{% endif %}
+        </button>
+    </form>
+
+    <a href="{% url 'press_hub:newspaper-list' %}" class="btn btn-secondary mt-3">Back to List</a>
+{% endblock %}
